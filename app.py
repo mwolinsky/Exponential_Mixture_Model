@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-class ExponentialMixtureModel():
 
+class ExponentialMixtureModel():
     def __init__(self, k: int, max_iter: int = 100, tol: float = 1e-6):
         #Cantidad de Clusters
         self.k = k
@@ -94,7 +94,7 @@ class ExponentialMixtureModel():
                     # Limitar el cambio en lambda para evitar convergencia rápida a un solo cluster
                     self.lambdas[k, j] = resp_sum / weighted_sum
 
-    def fit(self, X):
+    def fit(self, X, verbose: bool = True):
         X = self._prepare_data(X)
         self.initialize_parameters(X)
         log_likelihood_old = -np.inf
@@ -125,8 +125,9 @@ class ExponentialMixtureModel():
                     self.initialize_parameters(X)
                     log_likelihood_old = -np.inf
                     continue
-                    
-                print(f"Convergencia alcanzada en la iteración {i+1}")
+                
+                if verbose:
+                    print(f"Convergencia alcanzada en la iteración {i+1}")
                 break
                 
             log_likelihood_old = log_probs
